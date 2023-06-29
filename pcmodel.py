@@ -8,7 +8,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from pclayers import SpatialInputLayer, Atom2BondLayer, Bond2BondLayer, Bond2AtomLayer, PiPoolLayer, OutputLayer
 
-class SIGN(nn.Module):
+class CurvAGN(nn.Module):
     def __init__(self, args):
         super(SIGN, self).__init__()
         num_convs = args.num_convs
