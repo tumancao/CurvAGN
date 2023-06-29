@@ -60,7 +60,7 @@ def gen_feature(path, name, featurizer):
     
     pocket = next(pybel.readfile('pdb','%s/%s/%s_pocket.pdb' % (path, name, name)))
     pocket_coords, pocket_features = featurizer.get_features(pocket, molcode=-1)
-    node_num = pocket_atom_num_from_mol2(name, path)    
+    node_num = pocket_atom_num_from_pdb(name, path)    
     pocket_coords = pocket_coords[:node_num]
     pocket_features = pocket_features[:node_num]
     try:
@@ -76,8 +76,7 @@ def gen_feature(path, name, featurizer):
     for i, atom in enumerate(pocket):
         if atom.atomicnum > 1:
             pock_atoms.append(atom.atomicnum)
-   # for x in pock_atoms[node_num:]:
-    #    assert x == 8
+   
     pock_atoms = pock_atoms[:node_num]
     assert len(lig_atoms)==len(ligand_features) and len(pock_atoms)==len(pocket_features)    
     ligand_edges = gen_pocket_graph(ligand)
