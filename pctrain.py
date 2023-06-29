@@ -14,7 +14,7 @@ import torch.nn.functional as F
 from torch_geometric.loader import DataListLoader
 from parallel import DataParallel
 from pcdataset import ComplexDataset
-from pcmodel import SIGN
+from pcmodel import CurvAGN
 
 from tqdm import tqdm
 from torch_geometric.loader import DataListLoader,DataLoader
@@ -125,7 +125,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--data_dir', type=str, default='/data/wujq/')
     parser.add_argument('--dataset', type=str, default='g2016')
-    parser.add_argument('--model_dir', type=str, default='/data/wujq/output/sign2/')
+    parser.add_argument('--model_dir', type=str, default='/data/wujq/output/cagn2/')
     parser.add_argument('--cuda', type=str, default='2')
     parser.add_argument('--seed', type=int, default=123)
     parser.add_argument("--save_model", action="store_true", default=True)
@@ -134,11 +134,11 @@ if __name__ == "__main__":
     parser.add_argument("--feat_drop", type=float, default=0.2)
     parser.add_argument('--batch_size', type=int, default=32)
     parser.add_argument("--lr", type=float, default= 1e-3)
-    parser.add_argument("--weight_decay", type=float, default=1e-6)
+    parser.add_argument("--weight_decay", type=float, default=.0)
     parser.add_argument("--lr_dec_rate", type=float, default=0.5)
-    parser.add_argument("--dec_step", type=int, default=18000)
+    parser.add_argument("--dec_step", type=int, default=8000)
     parser.add_argument('--stop_epoch', type=int, default=100)
-    parser.add_argument('--epochs', type=int, default=1000)
+    parser.add_argument('--epochs', type=int, default=300)
 
     parser.add_argument("--num_convs", type=int, default= 2)
     parser.add_argument("--hidden_dim", type=int, default=128)
@@ -174,5 +174,5 @@ if __name__ == "__main__":
     val_loader = DataLoader(val_complex, args.batch_size, shuffle=False, num_workers=0)
     
 
-    model = SIGN(args)
+    model = CurvAGN(args)
     train(args, model, trn_loader, tst_loader, val_loader)
